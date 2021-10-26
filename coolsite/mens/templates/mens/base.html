@@ -1,0 +1,72 @@
+{% load static %}
+{% load mens_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Главная страница</title>
+	<link type="text/css" href="{% static 'mens/css/styles.css' %}" rel="stylesheet" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static 'mens/images/main.ico' %}" type="image/x-icon"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<table class="table-page" border=0 cellpadding="0" cellspacing="0">
+<tr><td valign=top>
+{% block mainmenu %}
+		<div class="header">
+			<ul id="mainmenu" class="mainmenu">
+			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li> <!-- кнопка голотипа -->
+{% for m in menu %}
+	{% if not forloop.last %}
+			<li><a href="{% url m.url_name %}">{{m.title}}</a></li> <!-- кнопки "О сайте, Добавить статью, обратная связь" -->
+	{% else %}
+			<li class="last"><a href="{% url m.url_name %}">{{m.title}}</a></li> <!-- кнопак "Вход"-->
+	{% endif %}
+{% endfor %}
+			</ul>
+			<div class="clear"></div>
+		</div>
+{% endblock mainmenu %}
+
+
+<table class="table-content" border=0 cellpadding="0" cellspacing="0">
+<tr>
+<!-- Sidebar слева -->
+	<td valign="top" class="left-chapters">
+	<ul id="leftchapters">
+		<!-- Список категорий -->
+		{% if cat_celected == 0%}
+			<li class="celected">Все категории</li>
+		{% else %}
+			<li><a href="{% url 'home' %}">Все категории</a></li>
+		{% endif %}
+
+{% show_categories cat_celected=cat_celected %} <!-- Отображение части с категориями (на сайте) с помощью тега -->
+
+
+	</ul>
+</td>
+<!-- Конец Sidebar'а -->
+<td valign="top" class="content">
+	<!-- Хлебные крошки -->
+	{% block breadcrumbs %}
+	{% endblock %}
+
+<!-- Блок контента -->
+	<div class="content-text">
+{% block content %}
+{% endblock %}
+	</div>
+<!-- Конец блока контента -->
+
+</td></tr></table>
+</td></tr>
+<!-- Footer -->
+<tr><td valign=top>
+	<div id="footer">
+		<p> © 2021 Сделано в учебных целях.</p>
+		</div>
+</td></tr></table>
+<!-- Конец footer'а и страницы -->
+</body>
+</html>
